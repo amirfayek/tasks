@@ -1,0 +1,7 @@
+<%= turbo_stream.append "task_cards" do %>
+  <%= render @task %>
+<% end %>
+
+<%= turbo_stream.replace "#{dom_id(Task.new)}_form" do %>
+  <%= render partial: 'form', locals: { task: Task.new } %>
+<% end %>

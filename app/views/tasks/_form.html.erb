@@ -1,0 +1,52 @@
+<%= form_for task, html: { class: "max-w-sm mx-auto", id: "#{dom_id(task)}_form" } do |form| %>
+  <div class="my-5">
+    <%= form.label :title, class: "block mb-2 text-sm font-medium text-gray-900", required: true %>
+    <%= form.text_field :title, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
+    <% task.errors.full_messages_for(:title).each do |message| %>
+      <p class="mt-2 text-sm text-red-600">
+        <%= message %>
+      </p>
+    <% end %>
+  </div>
+
+  <div class="mb-5">
+    <%= form.label :description, class: "block mb-2 text-sm font-medium text-gray-900" %>
+    <%= form.text_field :description, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
+    <% task.errors.full_messages_for(:description).each do |message| %>
+      <p class="mt-2 text-sm text-red-600">
+        <%= message %>
+      </p>
+    <% end %>
+  </div>
+
+  <div class="mb-5">
+    <%= form.label :due_date, class: "block mb-2 text-sm font-medium text-gray-900" %>
+    <%= form.date_select :due_date, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
+    <% task.errors.full_messages_for(:due_date).each do |message| %>
+      <p class="mt-2 text-sm text-red-600">
+        <%= message %>
+      </p>
+    <% end %>
+  </div>
+
+  <div class="flex items-start mb-5">
+    <div class="flex items-center h-5">
+      <%= form.check_box :complete, class: "w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300" %>
+    </div>
+    <%= form.label :complete, class: "ms-2 text-sm font-medium text-gray-900" %>
+  </div>
+
+  <div class="mb-5">
+    <%= form.label :assignee_id, class: "block mb-2 text-sm font-medium text-gray-900" %>
+    <%= form.collection_select :assignee_id, User.where.not(id: @current_user), :id, :email, {include_blank: true}, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
+  </div>
+
+  <div class="flex justify-start items-center gap-x-2 mb-5">
+    <%- if task.new_record? %>
+      <%= form.submit "Save Task", class: "p-2 border rounded bg-blue-500 hover:bg-blue-600 text-white cursor-pointer" %>
+    <%- else %>
+      <%= form.submit "Update Task", class: "p-2 border rounded bg-blue-500 hover:bg-blue-600 text-white cursor-pointer" %>
+      <%= link_to "Cancel", tasks_path %>
+    <%- end %>
+  </div>
+<% end %>

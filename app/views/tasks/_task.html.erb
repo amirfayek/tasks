@@ -1,0 +1,20 @@
+<% if task.errors.empty? %>
+  <div class="py-2 px-4 shadow-sm hover:shadow-lg border" id=<%= "#{dom_id(task)}_container" %>>
+    <%= turbo_frame_tag dom_id(task) do %>
+      <div class="flex justify-between">
+        <div class="flex flex-col">
+          <h2 class="text-lg font-semibold shrink-0"><%= task.title %></h2>
+          <p class="text-gray-500 text-sm font-medium mb-2">Due <%= task.due_date&.strftime("%m/%d/%Y") %></p>
+          <div><%= task.complete? ? "Complete" : "Incomplete" %></div>
+          <div class="italic"><%= task.description&.truncate(50) %></div>
+        </div>
+        <% if current_user == task.user %>
+          <div class="flex gap-x-2 items-start">
+            <%= link_to "Edit", edit_task_path(task), class: "p-2 border rounded bg-gray-100 hover:bg-gray-200 cursor-pointer" %>
+            <%= link_to "Delete", task_path(task), data: { turbo_method: "delete" }, class: "p-2 border rounded bg-red-500 hover:bg-red-600 text-white cursor-pointer" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
